@@ -3,6 +3,7 @@ function permute(s) {
 }
 
 function findPermutations(s, wordsStore) {
+  //console.log('s = ' + s);
   if(wordsStore[s]) {
     return wordsStore[s];
   }
@@ -11,16 +12,23 @@ function findPermutations(s, wordsStore) {
   }
   var len = s.length, res = [];
   if(len === 1){
-    return res;
+    return [s];
   }
   
   for(var i = 0; i < len; i++) {
+    var currentHead = s[i];
     var subStr = s.slice(0, i) + s.slice(i + 1, len);
-    console.log(subStr);
+    var tmpOp = findPermutations(subStr, wordsStore), tmpOpLen = tmpOp.length;
+    wordsStore[subStr] = tmpOp;
+    for(var j = 0; j < tmpOpLen; j++) {
+
+      res.push(currentHead + "" + tmpOp[j]);
+    }
   }
+  //console.log('res ', res);
   return res;
 }
 
-var input = "abcdefghij";
+var input = "abcd";
 var output = permute(input);
 console.log(output);
